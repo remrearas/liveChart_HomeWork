@@ -4,31 +4,28 @@ from matplotlib.animation import FuncAnimation
 
 fig, ax = plt.subplots()
 x, y = [], []
-ln, = plt.plot([], [])
+ln, = plt.plot([], [], 'ro')
 
 
 def compute(Bw, dB):
-    snr = 10 ** (dB/10)
-    return Bw * np.log2(1 + snr)
+    return Bw * np.log2(1 + np.power(10, dB/10))
 
 
-def update(Bw, frame):
-    x.append(frame)  # dB
-    y.append(compute(Bw, frame))  # Bps
+def update(Bw, dB):
+    x.append(dB)
+    y.append(compute(Bw, dB))
     ln.set_data(x, y)
     ax.relim()
     ax.autoscale_view()
     return ln,
 
 
-# Formula: C=Bw*log2(1+SNR)
-# X axis -> dB (SNR)
-# Y axis -> C (Channel Capacity)
-Bw_ = 23.8 * (10**6)
-dB_ = np.linspace(36, 100)
+Bw_ = 5
+dB_ = np.arange(0, 250)
 ani = FuncAnimation(fig,
                     lambda frame: update(Bw_, frame),
                     frames=dB_)
+plt.title('Bandwith = 1Bps')
 plt.xlabel('dB (SNR)')
 plt.ylabel('C (Bps)')
 plt.show()

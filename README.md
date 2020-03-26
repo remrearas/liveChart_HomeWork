@@ -1,0 +1,1 @@
+![Animated Chart](https://github.com/remrearas/liveChart_HomeWork/blob/master/animated.gif)
